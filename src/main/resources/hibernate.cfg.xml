@@ -39,6 +39,9 @@
         <mapping class="model.Client"/>
         <mapping class="model.IndividualClient"/>
         <mapping class="model.CompanyClient"/>
+        <mapping class="model.Employee"/>
+        <mapping class="model.ServiceAdvisor"/>
+        <mapping class="model.Mechanic"/>
 
     </session-factory>
 

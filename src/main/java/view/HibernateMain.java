@@ -35,6 +35,11 @@ public class HibernateMain {
         IndividualClient individualClient1 = new IndividualClient("Петров", "Иван", "Вадимович", "Минск", "555-42-81", new Date(1000));
         CompanyClient companyClient1 = new CompanyClient("ZubrCompany", "Vitebsk, Belarus", "555-33-22");
 
+        ServiceAdvisor serviceAdvisor1 = new ServiceAdvisor("Прытько", "Игорь", "Степанович", Date.valueOf("1981-03-21"),
+                Date.valueOf("1981-03-21"), Date.valueOf("1981-03-21"), 1500);
+        Mechanic mechanic1 = new Mechanic("Умелец", "Александр", "Михайлович", Date.valueOf("1987-08-30"),
+                Date.valueOf("1987-08-30"), Date.valueOf("1987-08-30"), "моторист", 5);
+
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -50,6 +55,8 @@ public class HibernateMain {
             session.save(vehicle3);
             session.save(individualClient1);
             session.save(companyClient1);
+            session.save(serviceAdvisor1);
+            session.save(mechanic1);
             tx.commit();
         }
         catch (Exception e) {
