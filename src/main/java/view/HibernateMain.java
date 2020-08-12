@@ -40,6 +40,8 @@ public class HibernateMain {
         Mechanic mechanic1 = new Mechanic("Умелец", "Александр", "Михайлович", Date.valueOf("1987-08-30"),
                 Date.valueOf("1987-08-30"), Date.valueOf("1987-08-30"), "моторист", 5);
 
+        VehiclePassport vehiclePassport1 = new VehiclePassport(vehicle1, "0965 AX-2", individualClient1, Date.valueOf("2015-09-11"), country1, true);
+
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -57,6 +59,7 @@ public class HibernateMain {
             session.save(companyClient1);
             session.save(serviceAdvisor1);
             session.save(mechanic1);
+            session.save(vehiclePassport1);
             tx.commit();
         }
         catch (Exception e) {

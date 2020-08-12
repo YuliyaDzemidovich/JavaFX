@@ -42,6 +42,7 @@
         <mapping class="model.Employee"/>
         <mapping class="model.ServiceAdvisor"/>
         <mapping class="model.Mechanic"/>
+        <mapping class="model.VehiclePassport"/>
 
     </session-factory>
 
