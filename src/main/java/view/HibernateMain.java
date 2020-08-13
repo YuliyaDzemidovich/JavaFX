@@ -7,16 +7,25 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class HibernateMain {
     static SessionFactory factory;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException{
         factory = new Configuration().configure().buildSessionFactory();
-        writedownData();
-
+//        Date date = Date.valueOf("1981-03-21");
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//        Date date2 = new Date(format.parse("2020-05-11 09:00").getTime());
+//        System.out.println(format.parse("2020-05-11 09:00").getTime());
+        try {
+            writedownData();
+        } catch (ParseException e) {
+            System.out.println("error parsing data string");
+        }
     }
 
-    public static void writedownData() {
+    public static void writedownData() throws ParseException {
         Session session = factory.openSession();
 
         Country country1 = new Country("Russia");
@@ -42,6 +51,10 @@ public class HibernateMain {
 
         VehiclePassport vehiclePassport1 = new VehiclePassport(vehicle1, "0965 AX-2", individualClient1, Date.valueOf("2015-09-11"), country1, true);
 
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        // Date parsed = format.parse("20110210");
+        Order order1 = new Order(vehicle2, companyClient1, serviceAdvisor1, new Date(format.parse("2020-05-11 09:00").getTime()), new Date(format.parse("2020-05-11 11:00").getTime()), new Date(format.parse("2020-05-11 11:15").getTime()), 100, OrderStatus.FINISHED);
+
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -60,6 +73,7 @@ public class HibernateMain {
             session.save(serviceAdvisor1);
             session.save(mechanic1);
             session.save(vehiclePassport1);
+            session.save(order1);
             tx.commit();
         }
         catch (Exception e) {

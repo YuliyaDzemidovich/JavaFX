@@ -43,6 +43,7 @@
         <mapping class="model.ServiceAdvisor"/>
         <mapping class="model.Mechanic"/>
         <mapping class="model.VehiclePassport"/>
+        <mapping class="model.Order"/>
 
     </session-factory>
 

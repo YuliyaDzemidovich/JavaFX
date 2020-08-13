@@ -14,7 +14,6 @@ import javax.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorValue("client")
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "type")
 public class Client {
     @Id

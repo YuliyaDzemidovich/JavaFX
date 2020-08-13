@@ -8,7 +8,6 @@ import java.sql.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorValue("employee")
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "type")
 public class Employee {
     @Id
