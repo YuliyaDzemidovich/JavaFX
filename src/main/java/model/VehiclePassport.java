@@ -9,12 +9,12 @@ public class VehiclePassport {
     @GeneratedValue
     private long id;
     @ManyToOne
-    @JoinColumn(name = "vehicle")
+    @JoinColumn(name = "vehicle", nullable = false)
     private Vehicle vehicle;
     @Column
     private String plateNumber;
     @ManyToOne
-    @JoinColumn(name = "client")
+    @JoinColumn(name = "client", nullable = false)
     private Client owner;
     @Column
     private Date registrationDate;

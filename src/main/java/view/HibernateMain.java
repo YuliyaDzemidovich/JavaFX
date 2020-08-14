@@ -12,12 +12,8 @@ import java.text.SimpleDateFormat;
 
 public class HibernateMain {
     static SessionFactory factory;
-    public static void main(String[] args) throws ParseException{
+    public static void main(String[] args) {
         factory = new Configuration().configure().buildSessionFactory();
-//        Date date = Date.valueOf("1981-03-21");
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//        Date date2 = new Date(format.parse("2020-05-11 09:00").getTime());
-//        System.out.println(format.parse("2020-05-11 09:00").getTime());
         try {
             writedownData();
         } catch (ParseException e) {
@@ -55,6 +51,10 @@ public class HibernateMain {
         // Date parsed = format.parse("20110210");
         Order order1 = new Order(vehicle2, companyClient1, serviceAdvisor1, new Date(format.parse("2020-05-11 09:00").getTime()), new Date(format.parse("2020-05-11 11:00").getTime()), new Date(format.parse("2020-05-11 11:15").getTime()), 100, OrderStatus.FINISHED);
 
+        Fault fault1 = new Fault("Неисправность рабочего тормоза");
+        Diagnostics diagnostics1 = new Diagnostics(1001);
+        OrderFault orderFault = new OrderFault(order1, fault1, diagnostics1, FaultStatus.CLAIMED_BY_CLIENT_AND_FIXED);
+
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -74,6 +74,9 @@ public class HibernateMain {
             session.save(mechanic1);
             session.save(vehiclePassport1);
             session.save(order1);
+            session.save(fault1);
+            session.save(diagnostics1);
+            session.save(orderFault);
             tx.commit();
         }
         catch (Exception e) {
