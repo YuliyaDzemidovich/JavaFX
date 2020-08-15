@@ -1,7 +1,9 @@
 package model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "repair_order")
@@ -28,6 +30,12 @@ public class Order {
     private int totalSum;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+    @OneToMany
+    @JoinColumn(name = "fault")
+    private List<Fault> faults;
+    @OneToMany
+    @JoinColumn(name = "work")
+    private List<Work> works;
 
     public Order() {
 
@@ -42,6 +50,20 @@ public class Order {
         this.actualFinishDate = actualFinishDate;
         this.totalSum = totalSum;
         this.status = status;
+    }
+
+    public void addWork(Work work) {
+        if (works == null) {
+            works = new ArrayList<Work>();
+        }
+        works.add(work);
+    }
+
+    public void addFault(Fault fault) {
+        if (faults == null) {
+            faults = new ArrayList<Fault>();
+        }
+        faults.add(fault);
     }
 
     public long getId() {
@@ -114,5 +136,21 @@ public class Order {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public List<Fault> getFaults() {
+        return faults;
+    }
+
+    public void setFaults(List<Fault> faults) {
+        this.faults = faults;
+    }
+
+    public List<Work> getWorks() {
+        return works;
+    }
+
+    public void setWorks(List<Work> works) {
+        this.works = works;
     }
 }

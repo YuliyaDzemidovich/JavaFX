@@ -49,11 +49,19 @@ public class HibernateMain {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         // Date parsed = format.parse("20110210");
-        Order order1 = new Order(vehicle2, companyClient1, serviceAdvisor1, new Date(format.parse("2020-05-11 09:00").getTime()), new Date(format.parse("2020-05-11 11:00").getTime()), new Date(format.parse("2020-05-11 11:15").getTime()), 100, OrderStatus.FINISHED);
+        Order order1 = new Order(vehicle2, companyClient1, serviceAdvisor1, new Date(format.parse("2020-05-11 09:00").getTime()), new Date(format.parse("2020-05-11 11:00").getTime()), new Date(format.parse("2020-05-11 11:15").getTime()), 100, OrderStatus.RUNNING);
 
-        FaultType fault1 = new FaultType("Неисправность рабочего тормоза");
+        FaultType faultType1 = new FaultType("Неисправность рабочего тормоза");
         Diagnostics diagnostics1 = new Diagnostics(1001);
-        Fault orderFault = new Fault(order1, fault1, diagnostics1, FaultStatus.CLAIMED_BY_CLIENT_AND_FIXED);
+        Fault fault1 = new Fault(faultType1, diagnostics1, FaultStatus.CLAIMED_BY_CLIENT);
+        order1.addFault(fault1);
+
+        WorkType workType1 = new WorkType("Замена тормозных трубок");
+        Work work1 = new Work(workType1, fault1, new Date(format.parse("2020-05-11 09:15").getTime()), new Date(format.parse("2020-05-11 11:05").getTime()), 200);
+        order1.addWork(work1);
+
+//        fault1.setFaultStatus(FaultStatus.CLAIMED_BY_CLIENT_AND_FIXED);
+//        order1.setStatus(OrderStatus.FINISHED);
 
         Transaction tx = null;
         try {
@@ -74,9 +82,11 @@ public class HibernateMain {
             session.save(mechanic1);
             session.save(vehiclePassport1);
             session.save(order1);
-            session.save(fault1);
+            session.save(faultType1);
             session.save(diagnostics1);
-            session.save(orderFault);
+            session.save(fault1);
+            session.save(workType1);
+            session.save(work1);
             tx.commit();
         }
         catch (Exception e) {

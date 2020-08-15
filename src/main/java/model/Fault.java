@@ -16,10 +16,7 @@ public class Fault {
     @GeneratedValue
     private long id;
     @ManyToOne
-    @JoinColumn(name = "repair_order", nullable = false)
-    private Order order;
-    @ManyToOne
-    @JoinColumn(name = "fault")
+    @JoinColumn(name = "faulttype", nullable = false)
     private FaultType faultType;
     @OneToOne
     @JoinColumn(name = "diagnostics")
@@ -31,8 +28,7 @@ public class Fault {
 
     }
 
-    public Fault(Order order, FaultType fault, Diagnostics diagnostics, FaultStatus faultStatus) {
-        this.order = order;
+    public Fault(FaultType fault, Diagnostics diagnostics, FaultStatus faultStatus) {
         this.faultType = fault;
         this.diagnostics = diagnostics;
         this.faultStatus = faultStatus;
@@ -44,14 +40,6 @@ public class Fault {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
     }
 
     public FaultType getFaultType() {

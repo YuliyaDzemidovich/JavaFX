@@ -47,6 +47,8 @@
         <mapping class="model.FaultType"/>
         <mapping class="model.Fault"/>
         <mapping class="model.Diagnostics"/>
+        <mapping class="model.WorkType"/>
+        <mapping class="model.Work"/>
 
     </session-factory>
 
