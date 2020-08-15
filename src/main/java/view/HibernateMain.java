@@ -51,9 +51,9 @@ public class HibernateMain {
         // Date parsed = format.parse("20110210");
         Order order1 = new Order(vehicle2, companyClient1, serviceAdvisor1, new Date(format.parse("2020-05-11 09:00").getTime()), new Date(format.parse("2020-05-11 11:00").getTime()), new Date(format.parse("2020-05-11 11:15").getTime()), 100, OrderStatus.FINISHED);
 
-        Fault fault1 = new Fault("Неисправность рабочего тормоза");
+        FaultType fault1 = new FaultType("Неисправность рабочего тормоза");
         Diagnostics diagnostics1 = new Diagnostics(1001);
-        OrderFault orderFault = new OrderFault(order1, fault1, diagnostics1, FaultStatus.CLAIMED_BY_CLIENT_AND_FIXED);
+        Fault orderFault = new Fault(order1, fault1, diagnostics1, FaultStatus.CLAIMED_BY_CLIENT_AND_FIXED);
 
         Transaction tx = null;
         try {

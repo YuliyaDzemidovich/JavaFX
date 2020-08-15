@@ -44,8 +44,8 @@
         <mapping class="model.Mechanic"/>
         <mapping class="model.VehiclePassport"/>
         <mapping class="model.Order"/>
+        <mapping class="model.FaultType"/>
         <mapping class="model.Fault"/>
-        <mapping class="model.OrderFault"/>
         <mapping class="model.Diagnostics"/>
 
     </session-factory>
