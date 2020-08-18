@@ -2,6 +2,8 @@ package model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 public class Work {
@@ -20,6 +22,9 @@ public class Work {
     private Date finishDate;
     @Column
     private int cost;
+    @ElementCollection
+    @MapKeyJoinColumn(name = "employee_id")
+    private Map<Employee, Integer> workersAndPercentage;
 
     public Work() {
 
@@ -79,5 +84,25 @@ public class Work {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public Map<Employee, Integer> getWorkersAndPercentage() {
+        return workersAndPercentage;
+    }
+
+    public void setWorkersAndPercentage(Map<Employee, Integer> workersAndPercentage) {
+        this.workersAndPercentage = workersAndPercentage;
+    }
+
+    public boolean addWorker(Employee worker, int percentage) {
+        if (percentage <= 0 || percentage > 100) {
+            return false;
+        } else {
+            if (workersAndPercentage == null) {
+                workersAndPercentage = new HashMap<Employee, Integer>();
+            }
+            workersAndPercentage.put(worker, percentage);
+            return true;
+        }
     }
 }

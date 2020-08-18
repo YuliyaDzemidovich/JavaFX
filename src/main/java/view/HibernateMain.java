@@ -19,6 +19,7 @@ public class HibernateMain {
         } catch (ParseException e) {
             System.out.println("error parsing data string");
         }
+
     }
 
     public static void writedownData() throws ParseException {
@@ -60,8 +61,11 @@ public class HibernateMain {
         Work work1 = new Work(workType1, fault1, new Date(format.parse("2020-05-11 09:15").getTime()), new Date(format.parse("2020-05-11 11:05").getTime()), 200);
         order1.addWork(work1);
 
-//        fault1.setFaultStatus(FaultStatus.CLAIMED_BY_CLIENT_AND_FIXED);
-//        order1.setStatus(OrderStatus.FINISHED);
+        work1.addWorker(mechanic1, 90);
+        work1.addWorker(serviceAdvisor1, 10);
+
+        fault1.setFaultStatus(FaultStatus.CLAIMED_BY_CLIENT_AND_FIXED);
+        order1.setStatus(OrderStatus.FINISHED);
 
         Transaction tx = null;
         try {
