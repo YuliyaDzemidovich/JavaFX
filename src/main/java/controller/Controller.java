@@ -15,8 +15,6 @@ public class Controller {
         Session session = factory.openSession();
         Query query = session.createQuery("from Order");
         List<Order> res = query.getResultList();
-//        System.out.print("RES LIST SIZE: ");
-//        System.out.println(res.size());
         session.close();
         return res;
     }
