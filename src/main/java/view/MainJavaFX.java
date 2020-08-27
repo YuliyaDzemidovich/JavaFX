@@ -23,7 +23,11 @@ import java.util.List;
 
 public class MainJavaFX extends Application {
     static final Controller controller = new Controller();
-    TableView ordersTableView;
+    Stage stageMainWin;
+    Stage stageEmployees;
+    Stage stageAddOrder;
+    Stage stageEditOrder;
+    private TableView tableViewOrders;
 
     public static void main(String[] args) {
         launch(args);
@@ -31,78 +35,50 @@ public class MainJavaFX extends Application {
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Orders");
-
-        ordersTableView = new TableView();
-        ordersTableView.prefWidthProperty().bind(stage.widthProperty());
-        addColumnsToTable();
-        fillOrdersTable();
-        ordersTableView.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                if (newPropertyValue) {
-                ordersTableView.getItems().clear();
-                fillOrdersTable();
-                }
-            }
-        });
-
-        Button buttonAddOrder = new Button();
-        buttonAddOrder.setText("Add order");
-        buttonAddOrder.setPrefSize(110, 40);
-        buttonAddOrder.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Add order button click!");
-            }
-        });
-
-        Button buttonEditOrder = new Button();
-        buttonEditOrder.setText("Edit order");
-        buttonEditOrder.setPrefSize(110, 40);
-        buttonEditOrder.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Edit order button click!");
-            }
-        });
-
-        Button buttonDeleteOrder = new Button();
-        buttonDeleteOrder.setText("Delete order");
-        buttonDeleteOrder.setPrefSize(110, 40);
-        buttonDeleteOrder.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Delete order button click!");
-            }
-        });
-
-        Button buttonManageEmployees = new Button();
-        buttonManageEmployees.setText("Manage employees");
-        buttonManageEmployees.setPrefSize(150, 40);
-        buttonManageEmployees.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Manage employees button click!");
-            }
-        });
+        this.stageMainWin = stage;
+        tableViewOrders = createTableViewOrders();
+        Button buttonAddOrder = createButtonAddOrder();
+        Button buttonEditOrder = createButtonEditOrder();
+        Button buttonDeleteOrder = createButtonDeleteOrder();
+        Button buttonManageEmployees = createButtonManageEmployees();
 
         VBox root = new VBox();
         root.setSpacing(50);
-        root.getChildren().add(ordersTableView);
+        HBox buttonsBox = createButtonsBox(buttonAddOrder, buttonEditOrder, buttonDeleteOrder, buttonManageEmployees);
+        root.getChildren().addAll(tableViewOrders, buttonsBox);
 
+        Scene scene = new Scene(root, 600, 550);
+        stage.setScene(scene);
+        stage.setTitle("Orders");
+        stage.show();
+    }
+
+    private HBox createButtonsBox(Button buttonAddOrder, Button buttonEditOrder, Button buttonDeleteOrder, Button buttonManageEmployees) {
         HBox buttonsBox = new HBox();
         buttonsBox.setSpacing(20);
         buttonsBox.setAlignment(Pos.BASELINE_CENTER);
         buttonsBox.getChildren().addAll(buttonAddOrder, buttonEditOrder, buttonDeleteOrder, buttonManageEmployees);
-        root.getChildren().add(buttonsBox);
-
-        Scene scene = new Scene(root, 600, 550);
-        stage.setScene(scene);
-        stage.show();
+        return buttonsBox;
     }
 
-    public void addColumnsToTable() {
+    private TableView createTableViewOrders() {
+        tableViewOrders = new TableView();
+        tableViewOrders.prefWidthProperty().bind(stageMainWin.widthProperty());
+        addColumnsToTable();
+        fillOrdersTable();
+        tableViewOrders.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                if (newPropertyValue) {
+                    tableViewOrders.getItems().clear();
+                    fillOrdersTable();
+                }
+            }
+        });
+        return tableViewOrders;
+    }
+
+    private void addColumnsToTable() {
         TableColumn clientNameCol = new TableColumn("Client");
         clientNameCol.setCellValueFactory(new PropertyValueFactory<>("client"));
         TableColumn vehicleCol = new TableColumn("Vehicle");
@@ -116,11 +92,11 @@ public class MainJavaFX extends Application {
         TableColumn statusCol = new TableColumn("Status");
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        ordersTableView.getColumns().addAll(clientNameCol, vehicleCol, createdDateCol,
+        tableViewOrders.getColumns().addAll(clientNameCol, vehicleCol, createdDateCol,
                 finishedDateCol, totalSumCol, statusCol);
     }
 
-    public void fillOrdersTable() {
+    private void fillOrdersTable() {
         ObservableList<OrderView> list = FXCollections.observableArrayList();
         List<Order> orders = controller.getAllOrders();
 
@@ -128,6 +104,71 @@ public class MainJavaFX extends Application {
             list.add(new OrderView(order));
         }
 
-        ordersTableView.setItems(list);
+        tableViewOrders.setItems(list);
     }
+
+    private Button createButtonAddOrder() {
+        Button buttonAddOrder = new Button();
+        buttonAddOrder.setText("Add order");
+        buttonAddOrder.setPrefSize(110, 40);
+        buttonAddOrder.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Add order button click!");
+            }
+        });
+        return buttonAddOrder;
+    }
+
+    private Button createButtonEditOrder() {
+        Button buttonEditOrder = new Button();
+        buttonEditOrder.setText("Edit order");
+        buttonEditOrder.setPrefSize(110, 40);
+        buttonEditOrder.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Edit order button click!");
+            }
+        });
+        return buttonEditOrder;
+    }
+
+    private Button createButtonDeleteOrder() {
+        Button buttonDeleteOrder = new Button();
+        buttonDeleteOrder.setText("Delete order");
+        buttonDeleteOrder.setPrefSize(110, 40);
+        buttonDeleteOrder.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Delete order button click!");
+            }
+        });
+        return buttonDeleteOrder;
+    }
+
+    private Button createButtonManageEmployees() {
+        Button buttonManageEmployees = new Button();
+        buttonManageEmployees.setText("Manage employees");
+        buttonManageEmployees.setPrefSize(150, 40);
+        buttonManageEmployees.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Manage employees button click!");
+
+                if (stageEmployees == null) {
+                    stageEmployees = new Stage();
+                    stageEmployees.setTitle("Employees");
+                    VBox root = new VBox();
+                    stageEmployees.setScene(new Scene(root, 600, 550));
+                    stageEmployees.setX(stageMainWin.getX() + 100);
+                    stageEmployees.setY(stageMainWin.getY() + 50);
+                    stageEmployees.show();
+                } else {
+                    stageEmployees.toFront();
+                }
+            }
+        });
+        return buttonManageEmployees;
+    }
+
 }
